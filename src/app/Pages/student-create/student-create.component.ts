@@ -15,6 +15,8 @@ export class StudentCreateComponent {
   email!: string
   phone!: string
 
+  errors: any = [];
+
   saveStudent(){
     var inputData ={
       name: this.name,
@@ -22,6 +24,24 @@ export class StudentCreateComponent {
       email: this.email,
       phone: this.phone,
     }
+
+    this.studentService.saveStudent(inputData).subscribe({
+      next: (res: any) =>{
+        console.log(res,'response');
+
+        alert(res.message);
+        this.name = '';
+        this.course = '';
+        this.email = '';
+        this.phone = '';
+
+      },
+      error:(err: any) =>{
+        this.errors = err.error.message;
+        console.log(err.error.message, 'errors')
+        // console.log(err, 'errors')
+      }
+    });
   }
 
 }
